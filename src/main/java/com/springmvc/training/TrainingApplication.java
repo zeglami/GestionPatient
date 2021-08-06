@@ -24,10 +24,10 @@ public class TrainingApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		patientRepository.save(new Patient(null,"ayoub",new Date(),false));
-		patientRepository.save(new Patient(null, "samira",new Date(),false));
-		patientRepository.save(new Patient(null, "samir",new Date(),false));
-		patientRepository.save(new Patient(null, "thami",new Date(),false));
+//		patientRepository.save(new Patient(null,"ayoub",new Date(),false));
+//		patientRepository.save(new Patient(null, "samira",new Date(),false));
+//		patientRepository.save(new Patient(null, "samir",new Date(),false));
+//		patientRepository.save(new Patient(null, "thami",new Date(),false));
 		patientRepository.findAll().forEach(
 				p->{
 					System.out.println(p.getName());
