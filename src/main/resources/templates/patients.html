@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorator="template1.html"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 >
 <head>
 <meta charset="utf-8">
@@ -33,8 +34,8 @@ Mot clé
 <th>Date de naissance</th>
 <th>Malade</th>
 <th>Score</th>
-<th>Del</th>
-<th>Edit</th>
+<th sec:authorize="hasRole('ROLE_ADMIN')">Del</th>
+<th sec:authorize="hasRole('ADMIN')">Edit</th>
 
 </tr>
 
@@ -46,8 +47,8 @@ Mot clé
 <td th:text="${p.dateNaissance}"></td>
 <td th:text="${p.malade}"></td>
 <td th:text="${p.score}"></td>
-<td> <a onClick="return confirm('Etes vous sur de vouloir supp.?')" class="btn btn-danger" th:href="@{deletePatient(id=${p.id},keyword=${keyword},page=${currentPage},size=${size})}">Delete</a></td>
-<td> <a  class="btn btn-secondary" th:href="@{editPatient(id=${p.id})}">Edite</a></td>
+<td sec:authorize="hasRole('ADMIN')"> <a onClick="return confirm('Etes vous sur de vouloir supp.?')" class="btn btn-danger" th:href="@{deletePatient(id=${p.id},keyword=${keyword},page=${currentPage},size=${size})}">Delete</a></td>
+<td sec:authorize="hasRole('ADMIN')"> <a  class="btn btn-secondary" th:href="@{editPatient(id=${p.id})}">Edite</a></td>
 
 
 </tr>
