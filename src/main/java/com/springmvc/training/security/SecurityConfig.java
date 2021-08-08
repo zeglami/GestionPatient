@@ -1,5 +1,8 @@
 package com.springmvc.training.security;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,9 +14,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration //traité au niveau de la demarrage de l'application
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	@Autowired
+	private DataSource dataSource;
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		PasswordEncoder passwordEncoder=passwordEncoder();
+		
+		
 		
 		System.out.println("======================================");
 		System.out.println(passwordEncoder.encode("12345"));
@@ -21,10 +29,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		System.out.println(temp);
 		System.out.println("======================================");
 		
-		auth.inMemoryAuthentication().withUser("user1").password("{noop}12345").roles("USER");
-		auth.inMemoryAuthentication().withUser("user2").password(temp).roles("USER");
-		//bcrypt spring security online
-		auth.inMemoryAuthentication().withUser("admin").password(temp).roles("USER","ADMIN");
+		//auth.inMemoryAuthentication().withUser("user1").password("{noop}12345").roles("USER");
+		//auth.inMemoryAuthentication().withUser("user2").password(temp).roles("USER");
+		////bcrypt spring security online
+		//auth.inMemoryAuthentication().withUser("admin").password(temp).roles("USER","ADMIN");
+		auth.jdbcAuthentication()
+		.dataSource(dataSource)
+		.usersByUsernameQuery("SELECT username as principal,password as credentials,active from users where username=?")
+		.authoritiesByUsernameQuery("select username as principal,role as role from users_roles where username=?")
+		.passwordEncoder(passwordEncoder)
+		.rolePrefix("ROLE_");
 		
 		
 
@@ -34,12 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 
-		http.formLogin();
+		//http.formLogin();//login for de spring security par defaut
+		http.formLogin().loginPage("/login");
 		//http.httpBasic();
 		//http.authorizeRequests().anyRequest().authenticated();//Any athenticated user
 		http.authorizeRequests().antMatchers("/save**/**","/delete**/**","/form**/**").hasRole("ADMIN");
 		http.authorizeRequests().antMatchers("/patients**/**").hasRole("USER");
-		http.authorizeRequests().antMatchers("/**user/**").permitAll();
+		http.authorizeRequests().antMatchers("/**user/**","/connect/**","webjars/**").permitAll();
 		//http.authorizeRequests().anyRequest().authenticated();
 		http.exceptionHandling().accessDeniedPage("/notAutorized");
 		//L'ordre est tres important

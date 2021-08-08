@@ -1,13 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorator="template1.html"
->
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template1.html">
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<title>MyDoc</title>
 </head>
 <body>
-<h1>Test</h1>
+	<div layout:fragment="pageContent"
+		class="d-flex justify-content-center">
+<div class="card">
+<div class="card-header">
+<h2 class="text-success">Bienvenu sur notre application</h2>
+</div>
+<div class="card-body">
+<ul>
+<li><h4 class="text-secondary">Gestion des patients</h4></li>
+<li><h4 class="text-secondary">Gestion des médcins</h4></li>
+</ul>
+<div class="d-flex justify-content-center mt-5">
+<a class="btn btn-secondary" href="/login" >Connexion</a>
+</div>
+
+</div>
+
+</div>
+	</div>
 </body>
 </html>

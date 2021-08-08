@@ -35,7 +35,7 @@ Mot clé
 <th>Malade</th>
 <th>Score</th>
 <th sec:authorize="hasRole('ROLE_ADMIN')">Del</th>
-<th sec:authorize="hasRole('ADMIN')">Edit</th>
+<th sec:authorize="hasRole('ROLE_ADMIN')">Edit</th>
 
 </tr>
 
@@ -47,8 +47,8 @@ Mot clé
 <td th:text="${p.dateNaissance}"></td>
 <td th:text="${p.malade}"></td>
 <td th:text="${p.score}"></td>
-<td sec:authorize="hasRole('ADMIN')"> <a onClick="return confirm('Etes vous sur de vouloir supp.?')" class="btn btn-danger" th:href="@{deletePatient(id=${p.id},keyword=${keyword},page=${currentPage},size=${size})}">Delete</a></td>
-<td sec:authorize="hasRole('ADMIN')"> <a  class="btn btn-secondary" th:href="@{editPatient(id=${p.id})}">Edite</a></td>
+<td sec:authorize="hasRole('ROLE_ADMIN')"> <a onClick="return confirm('Etes vous sur de vouloir supp.?')" class="btn btn-danger" th:href="@{deletePatient(id=${p.id},keyword=${keyword},page=${currentPage},size=${size})}">Delete</a></td>
+<td sec:authorize="hasRole('ROLE_ADMIN')"> <a  class="btn btn-secondary" th:href="@{editPatient(id=${p.id})}">Edite</a></td>
 
 
 </tr>
